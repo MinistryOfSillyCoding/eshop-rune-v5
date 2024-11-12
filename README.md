@@ -13,11 +13,30 @@
 
 
 
+## Directories:
+
+- *Services/Containers*:
+    1. [frontend](/frontend/):
+        The frontend container.
+    2. [orders](/orders/):
+        The orders service container.
+    3. [orders_db](/orders_db):
+        The orders database container.
+    4. [products](/products/):
+        The products service container.
+    5. [products_db](/products_db/):
+        The products database container.
+- *Misc*:
+    1. [wiki](/wiki/):
+        Directory with Markdown documentation on each of the 5 services.
+
 ## Files:
 
 - *Misc*:
     1. [docker-compose.yaml](docker-compose.yaml):
+        Compose file for all our docker containers.
     2. [Makefile](Makefile):
+        Makefile for running the app more conveniently. Nothing more than a wrapper for various docker-compose commands.
     3. [README.md](README.md):
-        this file.
+        Readme file for the whole app. Start here to RTFM.
 
