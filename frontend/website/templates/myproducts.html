@@ -8,36 +8,63 @@
 <form action="/myproducts/create" method="post">
     <label for="fname">First name:</label>
     <input type="text" name="fname">
+
     <label for="lname">Last name:</label>
     <input type="text" name="lname">
+
     <label for="price">Price (in USD):</label>
     <input type="text" name="price">
+
     <label for="quantity">Quantity:</label>
     <input type="text" name="quantity">
+
     <input type="submit" value="IMPRISON NEW SOUL">
 </form>
 <!-- form for updating product price/quantity by id -->
-<!-- TODO -->
+<form action="/myproducts/update" method="post">
+    <label for="updateid">ID</label>
+    <input type="text" name="updateid">
+
+    <label for="newprice">New Price</label>
+    <input type="text" name="newprice">
+
+    <label for="newquantity">New Quantity</label>
+    <input type="text" name="newquantity">
+
+    <input type="submit" value="ALTER AND TWIST SOUL">
+</form>
 <!-- form for deleting a product by id -->
  <form action="/myproducts/delete" method="post">
-    <label for="id">ID</label>
-    <input type="text" name="id">
+    <label for="deletionid">ID</label>
+    <input type="text" name="deletionid">
+
     <input type="submit" value="BANISH SOUL TO ETERNAL NOTHINGNESS">
  </form>
 
-{% if product_post_sent %}
-    {% if product_post_success %}
-    <div>
-        {{ product_name }}'s immortal soul successfully bound to RUNE's library!
-    </div>
+ <!-- Update for a request -->
+{% if request_type != 'none' %}
+    {% if request_success %}
+        <!-- Update for creating a new product -->
+        {% if request_type == 'new' %}
+            <div>
+                {{ product_name }}'s immortal soul successfully bound to RUNE's library!
+            </div>
+        <!-- Update for updating a product -->
+        {% elif request_type == 'update' %}
+            <div>
+                Soul #{{ update_id }} successfuly twisted and violated to your whim!
+            </div>
+        <!-- Update for deleting a product -->
+        {% elif request_type == 'delete' %}
+            <div>
+                Soul #{{ deletion_id }} successfully consigned to black oblivion!
+            </div>
+        {% endif %}
     {% else %}
-    <div>
-        Product not created! Unknown error!
-    </div>
-    {% endif%}
+        <div>
+            Unknown error! request unsuccessful!
+        </div>
+    {% endif %}
 {% endif %}
-
-{{ product_delete_success }}
-{{ deletion_id }}
 
 {% endblock %}

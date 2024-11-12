@@ -136,6 +136,7 @@ def send_products_bytitle(name):
 @app.route('/products', methods=['POST'])
 def create_product():
     ret = {'success' : False}
+
     p = request.json
     product_new = Products(
         id = cursor.next_id,
@@ -150,18 +151,35 @@ def create_product():
         ret['success'] = True
     except:
         ret['success'] = False
+
+    return jsonify(ret)
+
+# request to update a product by id
+@app.route('/products', methods=['PUT'])
+def update_product():
+    ret = {'success' : False}
+    p = request.json
+    try:
+        Products.query.filter(Products.id == p['id']).update({Products.price: p['new_price'], Products.quantity: p['new_quantity']})
+        db.session.commit()
+        ret['success'] = True
+    except:
+        ret['success'] = False
+
     return jsonify(ret)
 
 # request to delete a product by id
 @app.route('/products/<deletion_id>', methods=['DELETE'])
 def delete_product(deletion_id):
     ret = {'success' : False}
+
     try:
         Products.query.filter(Products.id == int(deletion_id)).delete()
         db.session.commit()
         ret['success'] = True
     except:
         ret['success'] = False
+
     return jsonify(ret)
 
 

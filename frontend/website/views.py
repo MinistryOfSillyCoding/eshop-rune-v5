@@ -39,7 +39,10 @@ def catalog():
 # get myproducts page
 @views.route('/myproducts', methods=['GET'])
 def myproducts():
-    return render_template('myproducts.html')
+    return render_template(
+        'myproducts.html',
+        request_type='none'
+    )
 
 # get cart page
 @views.route('/cart')
@@ -63,27 +66,49 @@ def send_new_product_request():
         'quantity' : request.form['quantity']
         }
     try:
-        post_success = requests.post(products_conf.getURL('/products'), json=product_json).json()['success']
+        success = requests.post(products_conf.getURL('/products'), json=product_json).json()['success']
     except:
-        post_success = False
+        success = False
     return render_template(
         'myproducts.html',
-        product_post_sent=True,
-        product_post_success=post_success,
+        request_type='new',
+        request_success=success,
         product_name=name
         )
+
+# update a product price/quantity by id
+@views.route('/myproducts/update', methods=['POST'])
+def update_product_by_id():
+    update_id = request.form['updateid']
+    product_json = {
+        'id' : update_id,
+        'new_price' : request.form['newprice'],
+        'new_quantity' : request.form['newquantity']
+    }
+    try:
+        success = requests.put(products_conf.getURL('/products'), json=product_json).json()['success']
+    except:
+        success = False
+    return render_template(
+        'myproducts.html',
+        request_type='update',
+        request_success=success,
+        update_id=update_id
+    )
+
 
 # delete a product in myproducts page
 @views.route('/myproducts/delete', methods=['POST'])
 def delete_product_by_id():
-    deletion_id = request.form['id']
+    deletion_id = request.form['deletionid']
     try:
-        delete_success = requests.delete(products_conf.getURL('/products/'+deletion_id)).json()['success']
+        success = requests.delete(products_conf.getURL('/products/'+deletion_id)).json()['success']
     except:
-        delete_success = False
+        success = False
     return render_template(
         'myproducts.html',
-        product_delete_success=delete_success,
+        request_type='delete',
+        request_success=success,
         deletion_id=deletion_id
     )
     
