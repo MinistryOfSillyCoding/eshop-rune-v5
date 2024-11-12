@@ -1,23 +1,19 @@
 # products_db info:
-=============================
 
 ## Nav-links:
-=============================
 
 - **[Master](/README.md)**
-- [frontend](/frontend/README.md)
+- [frontend](/wiki/frontend.md)
 - [products](/wiki/products_service.md)
 - [products_db](/wiki/products_db.md)
 - [orders](/wiki/orders_service.md)
 - [orders_db](/wiki/orders_db.md)
 
 ## General:
-=============================
 
 This is the Database to use for the Products service. It stores all the products. Users and the database are initialized by the [create_db.sql](/products_db/scripts/create_db.sql) sql script. Tables and entries are initialized remotely from the Products service. The reason for this separation is that we tried initializing everything here, and it didn't work.
 
 ## Files:
-=============================
 
 - *SQL*:
     1. [create_db.sql](/products_db/scripts/create_db.sql):
@@ -27,7 +23,6 @@ This is the Database to use for the Products service. It stores all the products
         Dockerfile for the db. We use a dockerfile (as opposed to running from an image in our [docker-compose](/docker-compose.yaml)), because we want to load a custom initializing script.
 
 ## DB:
-=============================
 
 - **Type**: Postgresql database
 - **Name**: products_db

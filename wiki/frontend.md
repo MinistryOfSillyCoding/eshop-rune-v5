@@ -1,23 +1,19 @@
 # frontend info:
-=============================
 
 ## Nav-links:
-=============================
 
 - **[Master](/README.md)**
-- [frontend](/frontend/README.md)
+- [frontend](/wiki/frontend.md)
 - [products](/wiki/products_service.md)
 - [products_db](/wiki/products_db.md)
 - [orders](/wiki/orders_service.md)
 - [orders_db](/wiki/orders_db.md)
 
 ## General:
-=============================
 
 
 
 ## Files:
-=============================
 
 - *Python*:
     1. [__init__.py](/frontend/website/__init__.py):
