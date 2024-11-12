@@ -1,0 +1,25 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8081:5000"
+
+  products:
+    build: ./products
+    ports:
+     - "5000"
+    depends_on:
+      - products_db
+
+  products_db:
+    build: ./products_db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - PGDATABASE=products_db
+    ports:
+      - "5432"
+    volumes:
+      - products-db-volume:/var/lib/postgresql/data
+
+volumes:
+  products-db-volume:

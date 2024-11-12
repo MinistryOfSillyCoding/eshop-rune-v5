@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}My Products{% endblock %}
+
+{% block content %}
+<h1>This is the "my products" page!</h1>
+
+<form action="/myproducts" method="post">
+    <label for="fname">First name:</label>
+    <input type="text" id="fname" name="fname">
+    <label for="lname">Last name:</label>
+    <input type="text" id="lname" name="lname">
+    <input type="submit" value="Submit">
+  </form> 
+
+{% if product_post_sent %}
+    {% if product_post_success %}
+    <div>
+        Product "{{ product_name }}" Successfully Created!
+    </div>
+    {% else %}
+    <div>
+        Product not created! Unknown error!
+    </div>
+    {% endif%}
+{% endif %}
+
+{% endblock %}

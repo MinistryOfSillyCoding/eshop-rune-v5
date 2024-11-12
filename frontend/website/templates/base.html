@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Base{% endblock %}</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <!--Any js scripts here-->
+</head>
+<body>
+    <nav class="navbar">
+        <a id="logo__link" href="/">
+            <img class="navbar__logo" src="../static/runelogo.jpg">
+        </a>
+        <div class="navbar__links">
+            <a class="navbar__link" href="/catalog">Catalogue</a>
+            <a class="navbar__link" href="/cart">Cart</a>
+            <a class="navbar__link" href="/orders">Orders</a>
+            <a class="navbar__link" href="/myproducts">My Products</a>
+        </div>
+        <!-- Our navbar
+        <a href="/">home</a>
+        <a href="/catalog">catalog</a>
+        <a href="/cart">cart</a>
+        <a href="/orders">orders</a> -->
+    </nav>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

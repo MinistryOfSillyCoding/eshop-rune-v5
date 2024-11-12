@@ -1,0 +1,121 @@
+:root {
+    /*
+    COLOR PALETTE:
+    main: the dominant background color
+    text: the dominant text color
+    text_client: the text color for when the "client" is talking
+    accent: the dark-subtle accent color
+
+    picked with the help of https://oklch.com
+    */
+    --col_main: rgb(89, 1, 40);
+    --col_text: rgb(250, 250, 219);
+    --col_text_client: rgb(206, 120, 235);
+    --col_accent: rgb(144, 37, 76);
+}
+
+/*
+ELEMENT PROPERTIES:
+Properties are grouped by function:
+    box -> padding, border, margin, etc.
+    coloring -> self-explanatory
+    layout -> flexbox/grid, justify/align, etc.
+    size -> width, height, etc.
+    text -> self-explanatory
+These groups are listed in alphabetical order in each elem.
+*/
+
+* {
+    /*box*/
+    margin: 0;
+    padding: 0;
+
+    /*coloring*/
+    color: var(--col_text);
+
+    /*text*/
+    text-decoration: none;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, 'Times New Roman', Times, serif;
+    font-size: 10pt;
+}
+
+h1 {
+    font-size: 1.6rem;
+    font-style: italic;
+}
+
+p, em {
+    font-size: 1.3rem;
+    margin-top: 5px;
+}
+
+hr {
+    color: var(--col_text);
+    margin: 5px 0;
+}
+
+body {
+    /*coloring*/
+    background-color: var(--col_main)
+}
+
+input {
+    background-color: var(--col_accent)
+}
+
+.navbar {
+    /*coloring*/
+    background-color: var(--col_accent);
+    
+    /*layout*/
+    display: flex;
+    justify-content: flex-start;
+
+    /*size*/
+    min-height: 40px;
+    height: 60px;
+}
+#logo__link {
+    /*size*/
+    width: 120px;
+}
+.navbar__logo {
+    /*size*/
+    height: 100%;
+}
+.navbar__links {
+    /*layout*/
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+.navbar__link {
+    /*layout*/
+    text-align: center;
+    align-content: center;
+
+    /*size*/
+    flex-basis: 100%;
+
+    /*text*/
+    font-size: 2.2rem;
+}
+.navbar__link:hover {
+    background-color: var(--col_text);
+    color: var(--col_accent);
+    transition: all 0.5s ease;
+}
+
+.main__section {
+    /*box*/
+    margin-bottom: 30px;
+
+    /*layout*/
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.client__quote {
+    color: var(--col_text_client);
+}
