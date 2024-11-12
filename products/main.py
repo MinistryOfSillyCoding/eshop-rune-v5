@@ -42,44 +42,67 @@ class Products(db.Model):
             'quantity' : self.quantity
         }
 
-# Create initial data in DB (if none exists)
-# We input id numbers to the products even though it's not necessary
-# This is so that it causes an error if the db already has products in it
+class DB_Cursor():
+    next_id: int
+
+    def __init__(self):
+        next_id = 1
+    
+    def increment(self):
+        self.next_id += 1
+cursor = DB_Cursor()
+
 with app.app_context():
+    # Create products table (if it doesn't exist)
     db.create_all()
-    products = [
-        Products(
-            id=1,
-            name='Colleslawe Andromedas',
-            price=34.99,
-            quantity=5),
-        Products(
-            id=2,
-            name='Barnacklus Riffraff',
-            price=37.99,
-            quantity=3),
-        Products(
-            id=3,
-            name='Margot Robbie',
-            price=74.99,
-            quantity=72),
-        Products(
-            id=4,
-            name='Achilles of the Myrmidons',
-            price=39.99,
-            quantity=3),
-        Products(
-            id=5,
-            name='John Gin',
-            price=999.99,
-            quantity=1)
-    ]
-    try:
-        for p in products:
-            db.session.add(p)
-        db.session.commit()
-    except:
-        print('oh no!')
+    # get first available id, to enter manually
+    cursor.next_id = Products.query.count() + 1
+    # Create initial catalog (if no items exist)
+    # We input id numbers to the products even though it's not necessary
+    # This is so that it causes an error if the db already has products in it
+    if cursor.next_id == 1:
+        products = [
+            Products(
+                id=1,
+                name='Colleslawe Andromedas',
+                price=34.99,
+                quantity=5),
+            Products(
+                id=2,
+                name='Barnacklus Riffraff',
+                price=37.99,
+                quantity=3),
+            Products(
+                id=3,
+                name='Margot Robbie',
+                price=74.99,
+                quantity=72),
+            Products(
+                id=4,
+                name='Achilles of the Myrmidons',
+                price=39.99,
+                quantity=3),
+            Products(
+                id=5,
+                name='John Gin',
+                price=999.99,
+                quantity=1)
+        ]
+        try:
+            for p in products:
+                db.session.add(p)
+            db.session.commit()
+            cursor.next_id += len(products)
+        except:
+            print('oh no!')
+
+# def create_product(p: Products, next_id: int):
+#     try:
+#         db.session.add(p)
+#         db.session.commit()
+#         next_id
+#     except:
+#         print('oh no')
 
 # ---------------------------
 
@@ -123,13 +146,15 @@ def create_product():
     ret = {'success' : False}
     p = request.json
     product_new = Products(
+        id = cursor.next_id,
         name = p['name'],
-        price = p['price'],
-        quantity = p['quantity']
+        price = float(p['price']),
+        quantity = int(p['quantity'])
     )
     try:
         db.session.add(product_new)
         db.session.commit()
+        cursor.increment()
     except:
         ret['success'] = False
     ret['success'] = True

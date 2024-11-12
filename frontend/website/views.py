@@ -44,7 +44,9 @@ def orders():
 def send_new_product_request():
     name = request.form['fname'] + ' ' + request.form['lname']
     product_json = {
-        'name' : name
+        'name' : name,
+        'price' : request.form['price'],
+        'quantity' : request.form['quantity']
         }
     try:
         post_success = requests.post('http://products:5000/products', json=product_json).json()['success']
