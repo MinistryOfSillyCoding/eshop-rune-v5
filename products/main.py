@@ -78,8 +78,6 @@ with app.app_context():
         for p in products:
             db.session.add(p)
         db.session.commit()
-        # db.session.add(products[2])
-        # db.session.commit()
     except:
         print('oh no!')
 

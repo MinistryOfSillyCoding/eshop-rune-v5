@@ -17,9 +17,9 @@ def home():
 # get catalog page
 @views.route('/catalog')
 def catalog():
-    # here we'll need to make a GET request to the backend
+    # GET catalog from products service
     items = requests.get('http://products:5000/products').json()
-    # before serving the html
+    
     return render_template('catalog.html', items=items)
 
 # get myproducts page
