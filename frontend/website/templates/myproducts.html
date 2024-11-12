@@ -4,22 +4,31 @@
 {% block content %}
 <h1>This is the "my products" page!</h1>
 
-<form action="/myproducts" method="post">
+<!-- form for creating new products -->
+<form action="/myproducts/create" method="post">
     <label for="fname">First name:</label>
-    <input type="text" id="fname" name="fname">
+    <input type="text" name="fname">
     <label for="lname">Last name:</label>
-    <input type="text" id="lname" name="lname">
+    <input type="text" name="lname">
     <label for="price">Price (in USD):</label>
-    <input type="text" id="price" name="price">
+    <input type="text" name="price">
     <label for="quantity">Quantity:</label>
-    <input type="text" id="quantity" name="quantity">
-    <input type="submit" value="Submit">
-</form> 
+    <input type="text" name="quantity">
+    <input type="submit" value="IMPRISON NEW SOUL">
+</form>
+<!-- form for updating product price/quantity by id -->
+<!-- TODO -->
+<!-- form for deleting a product by id -->
+ <form action="/myproducts/delete" method="post">
+    <label for="id">ID</label>
+    <input type="text" name="id">
+    <input type="submit" value="BANISH SOUL TO ETERNAL NOTHINGNESS">
+ </form>
 
 {% if product_post_sent %}
     {% if product_post_success %}
     <div>
-        Product "{{ product_name }}" Successfully Created!
+        {{ product_name }}'s immortal soul successfully bound to RUNE's library!
     </div>
     {% else %}
     <div>
@@ -27,5 +36,8 @@
     </div>
     {% endif%}
 {% endif %}
+
+{{ product_delete_success }}
+{{ deletion_id }}
 
 {% endblock %}

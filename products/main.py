@@ -96,14 +96,6 @@ with app.app_context():
         except:
             print('oh no!')
 
-# def create_product(p: Products, next_id: int):
-#     try:
-#         db.session.add(p)
-#         db.session.commit()
-#         next_id
-#     except:
-#         print('oh no')
-
 # ---------------------------
 
 # Cache configuration
@@ -155,10 +147,23 @@ def create_product():
         db.session.add(product_new)
         db.session.commit()
         cursor.increment()
+        ret['success'] = True
     except:
         ret['success'] = False
-    ret['success'] = True
     return jsonify(ret)
+
+# request to delete a product by id
+@app.route('/products/<deletion_id>', methods=['DELETE'])
+def delete_product(deletion_id):
+    ret = {'success' : False}
+    try:
+        Products.query.filter(Products.id == int(deletion_id)).delete()
+        db.session.commit()
+        ret['success'] = True
+    except:
+        ret['success'] = False
+    return jsonify(ret)
+
 
 # ---------------------------
 

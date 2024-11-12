@@ -13,13 +13,17 @@
                 <h2 class="product__name">{{ item['name'] }}</h2>
                 <div class="product__otherinfo">
                     <div class="product__price">
-                        ${{ item['price'] }}!
+                        ${{ item['price'] }} USD
                     </div>
                     <div class="product__quantity">
                         {{ item['quantity'] }} in stock
                     </div>
+                    <div class="product__id">
+                        Soul ID: {{ item['id'] }}
+                    </div>
                 </div>
             </div>
+            <!-- TODO: make button work -->
             <button type="button">Buy now!</button>
         </div>
     {% endfor %}
