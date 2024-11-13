@@ -4,22 +4,35 @@
 {% block content %}
 <h1>Looking for damned souls on the cheap? Look no further!</h1>
 <hr>
+{{ id }}
+{{ name }}
+<!-- Search form -->
+<!-- Search for products matching ALL non-null properties -->
+<form action="/products/search" method="get">
+    <label for="id">ID:</label>
+    <input type="text" name="id">
 
+    <label for="name">Name:</label>
+    <input type="text" name="name">
+
+    <input type="submit" value="SEARCH!">
+</form>
+<!-- Catalog -->
 <div class="products">
-    {% for item in items %}
+    {% for product in products %}
         <div class="product">
             <img class="product__img" src="../static/smoul.jpg">
             <div class="product__info">
-                <h2 class="product__name">{{ item['name'] }}</h2>
+                <h2 class="product__name">{{ product['name'] }}</h2>
                 <div class="product__otherinfo">
                     <div class="product__price">
-                        ${{ item['price'] }} USD
+                        ${{ product['price'] }} USD
                     </div>
                     <div class="product__quantity">
-                        {{ item['quantity'] }} in stock
+                        {{ product['quantity'] }} in stock
                     </div>
                     <div class="product__id">
-                        Soul ID: {{ item['id'] }}
+                        Soul ID: #{{ product['id'] }}
                     </div>
                 </div>
             </div>

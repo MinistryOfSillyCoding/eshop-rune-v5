@@ -116,19 +116,21 @@ items.append({'name' : 'Johnny-o', 'price' : '$99999.99'})
 # GET methods:
 
 # request all products
-@app.route('/products', methods = ['GET'])
+@app.route('/products/all', methods = ['GET'])
 def send_all_products():
     return jsonify([p.serialized for p in Products.query.all()])
 
-# request of a specific product by id
-@app.route('/products/:id', methods=['GET'])
-def send_product_byid(id):
-    pass
+# request of a specific product by id and name
+@app.route('/products/__<id>__<name>', methods=['GET'])
+def send_product_by_id_name(id, name):
+    if id == '0':
+        q = Products.query.filter(Products.name == name)
+    elif name == '0':
+        q = Products.query.filter(Products.id == int(id))
+    else:
+        q = Products.query.filter(Products.id == int(id), Products.id == int(id))
+    return jsonify([p.serialized for p in q])
 
-# request of a list of products by title
-@app.route('/products/<name>', methods=['GET'])
-def send_products_bytitle(name):
-    pass
 
 # Other methods:
 

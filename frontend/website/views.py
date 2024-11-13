@@ -29,12 +29,26 @@ def home():
     return render_template('home.html')
 
 # get catalog page
-@views.route('/catalog')
+@views.route('/products')
 def catalog():
     # GET catalog from products service
-    items = requests.get(products_conf.getURL('/products')).json()
+    products = requests.get(products_conf.getURL('/products/all')).json()
     
-    return render_template('catalog.html', items=items)
+    return render_template('catalog.html', products=products)
+
+
+# search by product id and name in catalog page
+@views.route('/products/search')
+def search_catalog():
+    id = request.args['id']
+    name = request.args['name']
+
+    id = '0' if id == '' else id
+    name = '0' if name == '' else name
+    
+    products = requests.get(products_conf.getURL('/products/__'+id+'__'+name)).json()
+
+    return render_template('catalog.html', products=products)
 
 # get myproducts page
 @views.route('/myproducts', methods=['GET'])
