@@ -2,5 +2,8 @@
 {% block title %}Cart{% endblock %}
 
 {% block content %}
-<h1>This is the cart page!</h1>
+<h1>This is the cart page!</h1><hr>
+{% for id in ids %}
+    {{ id }}
+{% endfor %}
 {% endblock %}

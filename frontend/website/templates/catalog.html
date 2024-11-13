@@ -37,7 +37,9 @@
                 </div>
             </div>
             <!-- TODO: make button work -->
-            <button type="button">Buy now!</button>
+            <form action="updatecart/{{ product['id'] }}" method="post">
+                <button type="submit">Add to cart!</button>
+            </form>
         </div>
     {% endfor %}
 </div>

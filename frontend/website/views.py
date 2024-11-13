@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, make_response
 import requests
 
 class ProductsAPIConfig():
@@ -61,7 +61,10 @@ def myproducts():
 # get cart page
 @views.route('/cart')
 def cart():
-    return render_template('cart.html')
+    text = request.cookies.get('in_cart')
+    cart_ids = [int(x) for x in text.split('_')]
+    return render_template('cart.html', ids=cart_ids)
+    # return text
 
 # get orders page
 @views.route('/orders')
@@ -69,6 +72,20 @@ def orders():
     return render_template('orders.html')
 
 # Other methods:
+
+# add product to cart
+@views.route('/updatecart/<id>', methods=['POST'])
+def add_to_cart(id):
+    products_in_cart = request.cookies.get('in_cart')
+    
+    if products_in_cart:
+        products_in_cart += '_'+str(id)
+    else:
+        products_in_cart = str(id)
+
+    resp = make_response('cart: ' + products_in_cart)
+    resp.set_cookie('in_cart', products_in_cart)
+    return catalog()
 
 # create new product in myproducts page
 @views.route('/myproducts/create', methods=['POST'])
