@@ -62,8 +62,8 @@ def myproducts():
 @views.route('/cart')
 def cart():
     text = request.cookies.get('in_cart')
-    cart_ids = [int(x) for x in text.split('_')]
-    return render_template('cart.html', ids=cart_ids)
+    cart_ids = [int(x) for x in text.split('_')] if text else []
+    return render_template('cart.html', ids=cart_ids, text=text)
     # return text
 
 # get orders page
@@ -83,9 +83,10 @@ def add_to_cart(id):
     else:
         products_in_cart = str(id)
 
-    resp = make_response('cart: ' + products_in_cart)
+    # resp = make_response('cart: ' + products_in_cart)
+    resp = make_response(render_template('addedtocart.html', id=id))
     resp.set_cookie('in_cart', products_in_cart)
-    return catalog()
+    return resp
 
 # create new product in myproducts page
 @views.route('/myproducts/create', methods=['POST'])
