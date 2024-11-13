@@ -11,7 +11,7 @@
 
 ## General:
 
-
+Welcome to RUNE, the e-shop for the souls of the dead! Unofrtunately there was not enough time to make it all full functional... But
 
 ## Directories:
 
