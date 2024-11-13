@@ -62,9 +62,22 @@ def myproducts():
 @views.route('/cart')
 def cart():
     text = request.cookies.get('in_cart')
-    cart_ids = [int(x) for x in text.split('_')] if text else []
-    return render_template('cart.html', ids=cart_ids, text=text)
-    # return text
+    cart_list = text.split('_') if text else []
+    # cart_products = []
+    # for q in cart_list:
+    #     info = q.split(':')
+    #     cart_products.append({
+    #         'id' : int(info[0]),
+    #         'name' : info[1],
+    #         'price' : float(info[2])
+    #     })
+    cart_ids = [int(id) for id in cart_list]
+    try:
+        products = requests.get(products_conf.getURL('/products/list'), json=cart_ids).json()
+    except:
+        products = []
+        print('oh noes')
+    return render_template('cart.html', products=products)
 
 # get orders page
 @views.route('/orders')
@@ -79,11 +92,12 @@ def add_to_cart(id):
     products_in_cart = request.cookies.get('in_cart')
     
     if products_in_cart:
-        products_in_cart += '_'+str(id)
+        # products_in_cart += '_'+id+':'+name+':'+price
+        products_in_cart += '_'+id
     else:
-        products_in_cart = str(id)
-
-    # resp = make_response('cart: ' + products_in_cart)
+        # products_in_cart = id+':'+name+':'+price
+        products_in_cart = id
+    
     resp = make_response(render_template('addedtocart.html', id=id))
     resp.set_cookie('in_cart', products_in_cart)
     return resp

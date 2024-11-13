@@ -124,12 +124,23 @@ def send_all_products():
 @app.route('/products/__<id>__<name>', methods=['GET'])
 def send_product_by_id_name(id, name):
     if id == '0':
-        q = Products.query.filter(Products.name == name)
+        q = Products.query.filter(Products.name == name).all()
     elif name == '0':
-        q = Products.query.filter(Products.id == int(id))
+        q = Products.query.filter(Products.id == int(id)).all()
     else:
-        q = Products.query.filter(Products.id == int(id), Products.id == int(id))
+        q = Products.query.filter(Products.id == int(id), Products.id == int(id)).all()
     return jsonify([p.serialized for p in q])
+
+# request products from a list of ids
+@app.route('/products/list', methods = ['GET'])
+def send_products_by_id_list():
+
+    ids = [int(id) for id in request.json]
+    products = Products.query.filter(Products.id.in_(ids)).all()
+    return jsonify([p.serialized for p in products]) if products else jsonify({})
+    
+
+    
 
 
 # Other methods:

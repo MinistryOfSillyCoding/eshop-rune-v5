@@ -3,8 +3,30 @@
 
 {% block content %}
 <h1>This is the cart page!</h1><hr>
-{% for id in ids %}
-    {{ id }}
-{% endfor %}
-{{ text }}
+<!-- List of products in cart -->
+<div class="products">
+    {% for product in products %}
+        <div class="product">
+            <img class="product__img" src="../static/smoul.jpg">
+            <div class="product__info">
+                <h2 class="product__name">{{ product['name'] }}</h2>
+                <div class="product__otherinfo">
+                    <div class="product__price">
+                        ${{ product['price'] }} USD
+                    </div>
+                    <div class="product__quantity">
+                        {{ product['quantity'] }} in stock
+                    </div>
+                    <div class="product__id">
+                        Soul ID: #{{ product['id'] }}
+                    </div>
+                </div>
+            </div>
+            <form action="updatecart/{{ product['id'] }}" method="post">
+                <button type="submit">remove</button>
+            </form>
+        </div>
+    {% endfor %}
+</div>
+
 {% endblock %}
