@@ -19,7 +19,7 @@ services:
     ports:
       - "5432"
     volumes:
-      - products-db-volume:/var/lib/postgresql/data
+      - ./volumes/products-db-volume:/var/lib/postgresql/data
 
   orders:
     build: ./orders

@@ -37,7 +37,10 @@
                 </div>
             </div>
             <form action="updatecart/{{ product['id'] }}" method="post">
-                <button type="submit">Add to cart!</button>
+                <label for="amount">What amount?</label>
+                <input type="text" name="amount">
+
+                <input type="submit" value="Add to Cart!">
             </form>
         </div>
     {% endfor %}

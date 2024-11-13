@@ -28,20 +28,31 @@ class Orders(db.Model):
     __tablename__ = 'orders'
 
     id = db.Column(db.Integer, primary_key=True)
-    # name = db.Column(db.String(255))
-    # price = db.Column(db.Float)
-    # quantity = db.Column(db.Integer)
+    # save json encoded text
+    products = db.Column(db.String(1000))
+    sumtotal = db.Column(db.Float)
+    # 'Pending', 'Reject', or 'Success'
+    status = db.Column(db.String(10))
 
     # property for converting to json format
     @property
     def serialized(self):
         return {
-            # 'id' : self.id,
-            # 'name' : self.name,
-            # 'price' : self.price,
-            # 'quantity' : self.quantity
-            'id' : self.id
+            'id' : self.id,
+            'products' : json.loads(self.products),
+            'sumtotal' : self.sumtotal,
+            'status' : self.status
         }
+
+class DB_Cursor():
+    next_id: int
+
+    def __init__(self):
+        self.next_id = 1
+    
+    def increment(self):
+        self.next_id += 1
+cursor = DB_Cursor()
 
 with app.app_context():
     # Create products table (if it doesn't exist)
@@ -53,7 +64,34 @@ with app.app_context():
 
 # GET methods:
 
+# get all orders (full history)
+@app.route('/orders', methods = ['GET'])
+def send_all_orders():
+    return jsonify([p.serialized for p in Orders.query.all()])
+
 # Other methods:
+
+# request to create new order with given fields
+@app.route('/products', methods=['POST'])
+def create_product():
+    ret = {'success' : False}
+
+    p = request.json
+    order_new = Orders(
+        id = cursor.next_id,
+        products = p['products'],
+        sumtotal = float(p['sumtotal']),
+        status = 'Pending'
+    )
+    try:
+        db.session.add(order_new)
+        db.session.commit()
+        cursor.increment()
+        ret['success'] = True
+    except:
+        ret['success'] = False
+
+    return jsonify(ret)
 
 # ---------------------------
 

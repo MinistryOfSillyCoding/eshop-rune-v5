@@ -15,12 +15,3 @@ down:
 re:
 	docker-compose down
 	docker-compose up --build -d
-
-# to load the initial products into the db
-# it is necessary to spin the containers up,
-# down, and then up again. We've no idea why.
-# Run this only if there is not already a created volume
-full:
-	docker-compose up --build -d
-	docker-compose down
-	docker-compose up --build -d

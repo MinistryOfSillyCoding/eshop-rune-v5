@@ -63,21 +63,18 @@ def myproducts():
 def cart():
     text = request.cookies.get('in_cart')
     cart_list = text.split('_') if text else []
-    # cart_products = []
-    # for q in cart_list:
-    #     info = q.split(':')
-    #     cart_products.append({
-    #         'id' : int(info[0]),
-    #         'name' : info[1],
-    #         'price' : float(info[2])
-    #     })
-    cart_ids = [int(id) for id in cart_list]
+    cart_products = {}
+    cart_ids = []
+    for q in cart_list:
+        info = q.split(':')
+        cart_products[info[0]] = info[1]
+        cart_ids.append(info[0])
     try:
         products = requests.get(products_conf.getURL('/products/list'), json=cart_ids).json()
     except:
         products = []
         print('oh noes')
-    return render_template('cart.html', products=products)
+    return render_template('cart.html', products=products, cart_products=cart_products)
 
 # get orders page
 @views.route('/orders')
@@ -89,14 +86,15 @@ def orders():
 # add product to cart
 @views.route('/updatecart/<id>', methods=['POST'])
 def add_to_cart(id):
+    amount_to_add = request.form['amount']
     products_in_cart = request.cookies.get('in_cart')
     
     if products_in_cart:
         # products_in_cart += '_'+id+':'+name+':'+price
-        products_in_cart += '_'+id
+        products_in_cart += '_'+id+':'+amount_to_add
     else:
         # products_in_cart = id+':'+name+':'+price
-        products_in_cart = id
+        products_in_cart = id+':'+amount_to_add
     
     resp = make_response(render_template('addedtocart.html', id=id))
     resp.set_cookie('in_cart', products_in_cart)
@@ -142,6 +140,19 @@ def update_product_by_id():
         update_id=update_id
     )
 
+# place an order in cart page
+@views.route('/placeorder', methods=['POST'])
+def place_order():
+    text = request.cookies.get('in_cart')
+    cart_list = text.split('_') if text else []
+    cart_products = []
+    for q in cart_list:
+        info = q.split(':')
+        cart_products.append(
+            {'id' : info[0],
+             'amount' : info[1]}
+        )
+    pass
 
 # delete a product in myproducts page
 @views.route('/myproducts/delete', methods=['POST'])

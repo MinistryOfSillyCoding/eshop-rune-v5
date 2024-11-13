@@ -22,11 +22,17 @@
                     </div>
                 </div>
             </div>
-            <form action="updatecart/{{ product['id'] }}" method="post">
+            <!-- <div>
+                Amount in cart: {{ cart_products[ product['id'] ] }}
+            </div> -->
+            <!-- <form action="updatecart/{{ product['id'] }}" method="post">
                 <button type="submit">remove</button>
-            </form>
+            </form> -->
         </div>
     {% endfor %}
 </div>
+<form action="/placeorder" method="post">
+    <input type="submit" value="Place Order!">
+</form>
 
 {% endblock %}
