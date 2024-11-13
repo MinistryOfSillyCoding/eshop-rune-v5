@@ -21,5 +21,23 @@ services:
     volumes:
       - products-db-volume:/var/lib/postgresql/data
 
+  orders:
+    build: ./orders
+    ports:
+      - "5000"
+    depends_on:
+      - orders_db
+
+  orders_db:
+    build: ./orders_db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - PGDATABASE=orders_db
+    ports:
+      - "5432"
+    volumes:
+      - orders-db-volume:/var/lib/postgresql/data
+
 volumes:
   products-db-volume:
+  orders-db-volume:
